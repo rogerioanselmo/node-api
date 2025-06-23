@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-deploy-app-ingress
+spec:
+  rules:
+  - host: test-deploy-app.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: test-deploy-app-service
+            port:
+              number: 80
