@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
   const repo = process.env.ENV_REPO
-  res.send(`working from ${repo}`);
+  res.send(`working from => ${repo}`);
 });
 
 app.listen(port, () => {
