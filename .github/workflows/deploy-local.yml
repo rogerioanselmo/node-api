@@ -7,48 +7,23 @@ on:
     - main
 
 jobs:
-  build-and-deploy:
+  fetch-env-from-repo-b:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - name: Checkout Repositório A
+      uses: actions/checkout@v3
 
-    - name: Set up Docker environment for Minikube
+    - name: Checkout Repositório B
+      uses: actions/checkout@v3
+      with:
+        repository: rogerioanselmo/devops-repo
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        path: node-api
+
+    - name: Copiar .env do repositório B
+      run: cp node-api/.env .env
+
+    - name: Verificar variável de ambiente
       run: |
-        # Este comando garante que o Docker CLI no runner (simulado pelo act)
-        # aponte para o daemon Docker do Minikube.
-        # NO CONTEXTO DO ACT, ISSO NÃO APONTA PARA O MINIKUBE REAL DIRETAMENTE
-        # MAS PARA O DOCKER DA SUA MÁQUINA QUE O ACT USA.
-        # Para que o `docker build` construa a imagem no Minikube's Docker daemon,
-        # você precisa ter executado `eval $(minikube docker-env)` *no seu terminal*
-        # ANTES de rodar `act`.
-        echo "Simulating Docker environment setup for Minikube..."
-        # No ambiente real do GitHub Actions, você usaria algo como:
-        # echo "DOCKER_HOST=$(minikube ip):2376" >> $GITHUB_ENV
-        # echo "DOCKER_TLS_VERIFY=1" >> $GITHUB_ENV
-        # etc.
-        # Mas para act, basta que o Docker esteja rodando localmente.
-
-    - name: Build and Tag Docker Image
-      run: |
-        docker build -t test-deploy-app:latest .
-        echo "Docker image built and tagged: test-deploy-app:latest"
-
-    - name: Verify kubectl is available and connected
-      run: |
-        kubectl cluster-info
-        kubectl get nodes
-
-    - name: Apply Kubernetes Manifests
-      run: |
-        echo "Applying Kubernetes Deployment..."
-        kubectl apply -f k8s/deployment.yaml
-
-        echo "Applying Kubernetes Service..."
-        kubectl apply -f k8s/service.yaml
-
-        echo "Applying Kubernetes Ingress (if exists)..."
-        kubectl apply -f k8s/ingress.yaml || true # Permite que o Ingress falhe se não estiver presente/habilitado
-
-        echo "Kubernetes manifests applied."
+        export $(cat .env | xargs)
+        echo "ENV_REPO: $ENV_REPO"
