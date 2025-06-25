@@ -1,0 +1,76 @@
+# Arquivos de log e diretórios temporários
+logs
+*.log
+npm-debug.log*
+.nyc_output/
+.temp/
+.tmp/
+tmp/
+
+# Dependências
+node_modules/
+dist/
+build/
+coverage/
+*.tgz
+.yarn-cache/
+.pnp/
+.pnp.js
+
+# Variáveis de ambiente (crucial para segurança)
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# IDEs e Ferramentas de Desenvolvimento
+.vscode/        # VSCode
+.idea/          # WebStorm/IntelliJ
+.DS_Store       # macOS
+*.iml           # IntelliJ IDEA
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+
+# Arquivos de sistema e de cache
+.bin/
+.npm/
+.eslintcache
+.prettiercache
+
+# Editor de texto
+*.swp
+*.swo
+
+# Docker
+.dockerignore
+!Dockerfile     # Não ignore o Dockerfile em si, apenas o .dockerignore
+
+# Minikube e Kubernetes locais (se você gerar configs localmente para teste e não quiser versionar)
+.kube/
+*.kubeconfig
+minikube/
+
+# Arquivos gerados por ferramentas de teste/build
+mochawesome-report/
+cypress/videos/
+cypress/screenshots/
+test-results/
+
+# Arquivos de pacote
+package-lock.json       # Remova se você usa npm v7 ou superior e prefere manter apenas o yarn.lock ou pnpm-lock.yaml
+npm-shrinkwrap.json
+
+# Se usar Yarn
+.yarn/                  # Yarn v2+
+yarn-error.log
+.pnp.*
+
+# Se usar pnpm
+pnpm-lock.yaml
+pnpm-debug.log*
+
+# act (para testes locais de GitHub Actions, como estamos fazendo)
+.actrc
