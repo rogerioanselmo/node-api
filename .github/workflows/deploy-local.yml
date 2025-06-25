@@ -21,7 +21,7 @@ jobs:
         path: node-api
 
     - name: Copiar .env do repositório B
-      run: cp node-api/.env .env
+      run: cp .env .env
 
     - name: Verificar variável de ambiente
       run: |
