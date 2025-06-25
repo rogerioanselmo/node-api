@@ -28,4 +28,4 @@ jobs:
     - name: Exibir variável de ambiente de exemplo
       run: |
         export $(cat .env | xargs)
-        echo "Minha VAR_EXEMPLO: $VAR_EXEMPLO"
+        echo "EV_REPO: $ENV_REPO"
