@@ -1,29 +1,31 @@
-name: Deploy Simple App to Local Minikube
+name: Puxar .env do DevOps Repo
 
 on:
-  workflow_dispatch:
   push:
     branches:
     - main
 
 jobs:
-  fetch-env-from-repo-b:
+  copiar-env:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repositório A
+    - name: Checkout do Repositório A (node-api)
       uses: actions/checkout@v3
 
-    - name: Checkout Repositório B
+    - name: Checkout do Repositório B (devops-repo)
       uses: actions/checkout@v3
       with:
         repository: rogerioanselmo/devops-repo
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        path: node-api
+        path: devops-repo
 
-    - name: Copiar .env do repositório B
-      run: cp .env .env
+    - name: Debug - listar arquivos no devops-repo
+      run: ls -la devops-repo/node-api
 
-    - name: Verificar variável de ambiente
+    - name: Copiar .env para raiz do repositório A
+      run: cp devops-repo/node-api/.env .env
+
+    - name: Exibir variável de ambiente de exemplo
       run: |
         export $(cat .env | xargs)
-        echo "ENV_REPO: $ENV_REPO"
+        echo "Minha VAR_EXEMPLO: $VAR_EXEMPLO"
